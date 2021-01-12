@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="com.eightbhs.nativestorage" version="1.0.0"
+    xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <name>EightbhsNativeStorage</name>
+
+    <js-module name="EightbhsNativeStorage" src="www/NativeStorage.js">
+        <clobbers target="eightbhs.plugins.NativeStorage" />
+    </js-module>
+
+    <js-module src="www/LocalStorageHandle.js" name="LocalStorageHandle">
+    </js-module>
+    <js-module src="www/NativeStorageError.js" name="NativeStorageError">
+    </js-module>
+
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="EightbhsNativeStorage">
+                <param name="android-package" value="com.eightbhs.nativestorage.NativeStorage" />
+            </feature>
+        </config-file>
+
+        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+
+        <source-file target-dir="src/com/eightbhs/nativestorage" src="src/android/NativeStorage.java" />
+        <source-file target-dir="src/com/eightbhs/nativestorage" src="src/android/Crypto.java" />
+    </platform>
+</plugin>

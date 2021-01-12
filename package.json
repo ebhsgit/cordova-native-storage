@@ -1,0 +1,14 @@
+{
+  "name": "com.eightbhs.nativestorage",
+  "version": "1.0.0",
+  "cordova": {
+    "id": "com.eightbhs.nativestorage",
+    "platforms": []
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "",
+  "license": "copyright",
+  "description": ""
+}
