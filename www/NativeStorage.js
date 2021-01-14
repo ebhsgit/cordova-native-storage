@@ -55,14 +55,14 @@ StorageHandle.prototype.initWithSuiteName = function (suiteName, success, error)
     this.storageHandlerDelegate(success, error, pluginFeatureName, "initWithSuiteName", [suiteName]);
 };
 
-StorageHandle.prototype.set = function (reference, value, success, error) {
+StorageHandle.prototype.set = function (storageName, property, value, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
-    if (reference === null) {
-        error("The reference can't be null");
+    if (property === null) {
+        error("The property can't be null");
         return;
     }
     if (value === null) {
@@ -74,7 +74,7 @@ StorageHandle.prototype.set = function (reference, value, success, error) {
             error("an undefined type isn't supported");
             break;
         case "boolean": {
-            this.putBoolean(reference, value, success, error);
+            this.putBoolean(storageName, property, value, success, error);
             break;
         }
         case "number": {
@@ -82,9 +82,9 @@ StorageHandle.prototype.set = function (reference, value, success, error) {
             if (value === +value) {
                 if (value === (value | 0)) {
                     // it's an int
-                    this.putInt(reference, value, success, error);
+                    this.putInt(storageName, property, value, success, error);
                 } else if (value !== (value | 0)) {
-                    this.putDouble(reference, value, success, error);
+                    this.putDouble(storageName, property, value, success, error);
                 }
             } else {
                 error("The value doesn't seem to be a number");
@@ -92,11 +92,11 @@ StorageHandle.prototype.set = function (reference, value, success, error) {
             break;
         }
         case "string": {
-            this.putString(reference, value, success, error);
+            this.putString(storageName, property, value, success, error);
             break;
         }
         case "object": {
-            this.putObject(reference, value, success, error);
+            this.putObject(storageName, property, value, success, error);
             break;
         }
         default:
@@ -106,57 +106,39 @@ StorageHandle.prototype.set = function (reference, value, success, error) {
 };
 
 /* removing */
-StorageHandle.prototype.remove = function (reference, success, error) {
+StorageHandle.prototype.remove = function (storageName, property, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
-    if (reference === null) {
-        error("Null reference isn't supported");
+    if (property === null) {
+        error("Null property isn't supported");
         return;
     }
 
-    if (inBrowser) {
-        try {
-            localStorage.removeItem(reference);
-            success();
-        } catch (e) {
-            error(e);
-        }
-    } else {
-        this.storageHandlerDelegate(success, error, pluginFeatureName, "remove", [reference]);
-    }
+    this.storageHandlerDelegate(success, error, pluginFeatureName, "remove", [storageName, property]);
 };
 
 /* clearing */
-StorageHandle.prototype.clear = function (success, error) {
+StorageHandle.prototype.clear = function (storageName, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
-    if (inBrowser) {
-        try {
-            localStorage.clear();
-            success();
-        } catch (e) {
-            error(e);
-        }
-    } else {
-        this.storageHandlerDelegate(success, error, pluginFeatureName, "clear", []);
-    }
+    this.storageHandlerDelegate(success, error, pluginFeatureName, "clear", [storageName]);
 };
 
 /* boolean storage */
-StorageHandle.prototype.putBoolean = function (reference, aBoolean, success, error) {
+StorageHandle.prototype.putBoolean = function (storageName, property, aBoolean, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
-    if (reference === null) {
-        error("Null reference isn't supported");
+    if (property === null) {
+        error("Null property isn't supported");
         return;
     }
 
@@ -183,21 +165,21 @@ StorageHandle.prototype.putBoolean = function (reference, aBoolean, success, err
             error,
             pluginFeatureName,
             "putBoolean",
-            [reference, aBoolean]
+            [storageName, property, aBoolean]
         );
     } else {
         error("Only boolean types are supported");
     }
 };
 
-StorageHandle.prototype.getBoolean = function (reference, success, error) {
+StorageHandle.prototype.getBoolean = function (storageName, property, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
-    if (reference === null) {
-        error("Null reference isn't supported");
+    if (property === null) {
+        error("Null property isn't supported");
         return;
     }
     this.storageHandlerDelegate(
@@ -217,59 +199,59 @@ StorageHandle.prototype.getBoolean = function (reference, success, error) {
         error,
         pluginFeatureName,
         "getBoolean",
-        [reference]
+        [storageName, property]
     );
 };
 
 /* int storage */
-StorageHandle.prototype.putInt = function (reference, anInt, success, error) {
+StorageHandle.prototype.putInt = function (storageName, property, anInt, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
-    if (reference === null) {
-        error("Null reference isn't supported");
+    if (property === null) {
+        error("Null property isn't supported");
         return;
     }
-    this.storageHandlerDelegate(success, error, pluginFeatureName, "putInt", [reference, anInt]);
+    this.storageHandlerDelegate(success, error, pluginFeatureName, "putInt", [storageName, property, anInt]);
 };
 
-StorageHandle.prototype.getInt = function (reference, success, error) {
+StorageHandle.prototype.getInt = function (storageName, property, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
-    if (reference === null) {
-        error("Null reference isn't supported");
+    if (property === null) {
+        error("Null property isn't supported");
         return;
     }
-    this.storageHandlerDelegate(success, error, pluginFeatureName, "getInt", [reference]);
+    this.storageHandlerDelegate(success, error, pluginFeatureName, "getInt", [storageName, property]);
 };
 
 /* float storage */
-StorageHandle.prototype.putDouble = function (reference, aFloat, success, error) {
+StorageHandle.prototype.putDouble = function (storageName, property, aFloat, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
-    if (reference === null) {
-        error("Null reference isn't supported");
+    if (property === null) {
+        error("Null property isn't supported");
         return;
     }
-    this.storageHandlerDelegate(success, error, pluginFeatureName, "putDouble", [reference, aFloat]);
+    this.storageHandlerDelegate(success, error, pluginFeatureName, "putDouble", [storageName, property, aFloat]);
 };
 
-StorageHandle.prototype.getDouble = function (reference, success, error) {
+StorageHandle.prototype.getDouble = function (storageName, property, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
-    if (reference === null) {
-        error("Null reference isn't supported");
+    if (property === null) {
+        error("Null property isn't supported");
         return;
     }
     this.storageHandlerDelegate(
@@ -283,39 +265,39 @@ StorageHandle.prototype.getDouble = function (reference, success, error) {
         error,
         pluginFeatureName,
         "getDouble",
-        [reference]
+        [storageName, property]
     );
 };
 
 /* string storage */
-StorageHandle.prototype.putString = function (reference, s, success, error) {
+StorageHandle.prototype.putString = function (storageName, property, s, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
-    if (reference === null) {
-        error("Null reference isn't supported");
+    if (property === null) {
+        error("Null property isn't supported");
         return;
     }
-    this.storageHandlerDelegate(success, error, pluginFeatureName, "putString", [reference, s]);
+    this.storageHandlerDelegate(success, error, pluginFeatureName, "putString", [storageName, property, s]);
 };
 
-StorageHandle.prototype.getString = function (reference, success, error) {
+StorageHandle.prototype.getString = function (storageName, property, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
-    if (reference === null) {
-        error("Null reference isn't supported");
+    if (property === null) {
+        error("Null property isn't supported");
         return;
     }
-    this.storageHandlerDelegate(success, error, pluginFeatureName, "getString", [reference]);
+    this.storageHandlerDelegate(success, error, pluginFeatureName, "getString", [storageName, property]);
 };
 
 /* object storage  COMPOSITE AND DOESNT CARE FOR BROWSER*/
-StorageHandle.prototype.putObject = function (reference, obj, success, error) {
+StorageHandle.prototype.putObject = function (storageName, property, obj, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -328,7 +310,8 @@ StorageHandle.prototype.putObject = function (reference, obj, success, error) {
         error(err);
     }
     this.putString(
-        reference,
+        storageName,
+        property,
         objAsString,
         function (data) {
             var obj = {};
@@ -343,14 +326,15 @@ StorageHandle.prototype.putObject = function (reference, obj, success, error) {
     );
 };
 
-StorageHandle.prototype.getObject = function (reference, success, error) {
+StorageHandle.prototype.getObject = function (storageName, property, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
     this.getString(
-        reference,
+        storageName,
+        property,
         function (data) {
             var obj = {};
             try {
@@ -365,7 +349,7 @@ StorageHandle.prototype.getObject = function (reference, success, error) {
 };
 
 /* API >= 2 */
-StorageHandle.prototype.setItem = function (reference, obj, success, error) {
+StorageHandle.prototype.setItem = function (storageName, property, obj, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -378,7 +362,7 @@ StorageHandle.prototype.setItem = function (reference, obj, success, error) {
         error(new NativeStorageError(NativeStorageError.JSON_ERROR, "JS", err));
         return;
     }
-    if (reference === null) {
+    if (property === null) {
         error(new NativeStorageError(NativeStorageError.NULL_REFERENCE, "JS", ""));
         return;
     }
@@ -396,17 +380,17 @@ StorageHandle.prototype.setItem = function (reference, obj, success, error) {
         },
         pluginFeatureName,
         "setItem",
-        [reference, objAsString]
+        [storageName, property, objAsString]
     );
 };
 
-StorageHandle.prototype.getItem = function (reference, success, error) {
+StorageHandle.prototype.getItem = function (storageName, property, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
-    if (reference === null) {
+    if (property === null) {
         error(new NativeStorageError(NativeStorageError.NULL_REFERENCE, "JS", ""));
         return;
     }
@@ -426,12 +410,12 @@ StorageHandle.prototype.getItem = function (reference, success, error) {
         },
         pluginFeatureName,
         "getItem",
-        [reference]
+        [storageName, property]
     );
 };
 
 /* API >= 2 */
-StorageHandle.prototype.setSecretItem = function (reference, obj, encryptConfig, success, error) {
+StorageHandle.prototype.setSecretItem = function (storageName, property, obj, encryptConfig, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -444,17 +428,17 @@ StorageHandle.prototype.setSecretItem = function (reference, obj, encryptConfig,
         error(new NativeStorageError(NativeStorageError.JSON_ERROR, "JS", err));
         return;
     }
-    if (reference === null) {
+    if (property === null) {
         error(new NativeStorageError(NativeStorageError.NULL_REFERENCE, "JS", ""));
         return;
     }
 
     var action = "setItem";
-    var params = [reference, objAsString];
+    var params = [storageName, property, objAsString];
     switch (encryptConfig.mode) {
         case "password":
             action = "setItemWithPassword";
-            params = [reference, objAsString, encryptConfig.value];
+            params = [storageName, property, objAsString, encryptConfig.value];
             break;
         case "key":
             action = "setItemWithKey";
@@ -484,24 +468,24 @@ StorageHandle.prototype.setSecretItem = function (reference, obj, encryptConfig,
     );
 };
 
-StorageHandle.prototype.getSecretItem = function (reference, encryptConfig, success, error) {
+StorageHandle.prototype.getSecretItem = function (storageName, property, encryptConfig, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
-    if (reference === null) {
+    if (property === null) {
         error(new NativeStorageError(NativeStorageError.NULL_REFERENCE, "JS", ""));
         return;
     }
     var obj = {};
 
     var action = "getItem";
-    var params = [reference];
+    var params = [storageName, property];
     switch (encryptConfig.mode) {
         case "password":
             action = "getItemWithPassword";
-            params = [reference, encryptConfig.value];
+            params = [storageName, property, encryptConfig.value];
             break;
         case "key":
             action = "getItemWithKey";
@@ -533,13 +517,13 @@ StorageHandle.prototype.getSecretItem = function (reference, encryptConfig, succ
 };
 
 /* list keys */
-StorageHandle.prototype.keys = function (success, error) {
+StorageHandle.prototype.keys = function (storageName, success, error) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
     }
 
-    this.storageHandlerDelegate(success, error, pluginFeatureName, "keys", []);
+    this.storageHandlerDelegate(success, error, pluginFeatureName, "keys", [storageName]);
 };
 
 var storageHandle = new StorageHandle();
