@@ -47,7 +47,7 @@ function StorageHandle() {
     }
 }
 
-StorageHandle.prototype.initWithSuiteName = function (suiteName, success, error) {
+StorageHandle.prototype.initWithSuiteName = function (success, error, suiteName) {
     if (suiteName === null) {
         error("Null suiteName isn't supported");
         return;
@@ -55,7 +55,7 @@ StorageHandle.prototype.initWithSuiteName = function (suiteName, success, error)
     this.storageHandlerDelegate(success, error, pluginFeatureName, "initWithSuiteName", [suiteName]);
 };
 
-StorageHandle.prototype.set = function (storageName, property, value, success, error) {
+StorageHandle.prototype.set = function (success, error, storageName, property, value) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -106,7 +106,7 @@ StorageHandle.prototype.set = function (storageName, property, value, success, e
 };
 
 /* removing */
-StorageHandle.prototype.remove = function (storageName, property, success, error) {
+StorageHandle.prototype.remove = function (success, error, storageName, property) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -121,7 +121,7 @@ StorageHandle.prototype.remove = function (storageName, property, success, error
 };
 
 /* clearing */
-StorageHandle.prototype.clear = function (storageName, success, error) {
+StorageHandle.prototype.clear = function (success, error, storageName) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -131,7 +131,7 @@ StorageHandle.prototype.clear = function (storageName, success, error) {
 };
 
 /* boolean storage */
-StorageHandle.prototype.putBoolean = function (storageName, property, aBoolean, success, error) {
+StorageHandle.prototype.putBoolean = function (success, error, storageName, property, aBoolean) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -172,7 +172,7 @@ StorageHandle.prototype.putBoolean = function (storageName, property, aBoolean, 
     }
 };
 
-StorageHandle.prototype.getBoolean = function (storageName, property, success, error) {
+StorageHandle.prototype.getBoolean = function (success, error, storageName, property) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -204,7 +204,7 @@ StorageHandle.prototype.getBoolean = function (storageName, property, success, e
 };
 
 /* int storage */
-StorageHandle.prototype.putInt = function (storageName, property, anInt, success, error) {
+StorageHandle.prototype.putInt = function (success, error, storageName, property, anInt) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -217,7 +217,7 @@ StorageHandle.prototype.putInt = function (storageName, property, anInt, success
     this.storageHandlerDelegate(success, error, pluginFeatureName, "putInt", [storageName, property, anInt]);
 };
 
-StorageHandle.prototype.getInt = function (storageName, property, success, error) {
+StorageHandle.prototype.getInt = function (success, error, storageName, property) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -231,7 +231,7 @@ StorageHandle.prototype.getInt = function (storageName, property, success, error
 };
 
 /* float storage */
-StorageHandle.prototype.putDouble = function (storageName, property, aFloat, success, error) {
+StorageHandle.prototype.putDouble = function (success, error, storageName, property, aFloat) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -244,7 +244,7 @@ StorageHandle.prototype.putDouble = function (storageName, property, aFloat, suc
     this.storageHandlerDelegate(success, error, pluginFeatureName, "putDouble", [storageName, property, aFloat]);
 };
 
-StorageHandle.prototype.getDouble = function (storageName, property, success, error) {
+StorageHandle.prototype.getDouble = function (success, error, storageName, property) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -270,7 +270,7 @@ StorageHandle.prototype.getDouble = function (storageName, property, success, er
 };
 
 /* string storage */
-StorageHandle.prototype.putString = function (storageName, property, s, success, error) {
+StorageHandle.prototype.putString = function (success, error, storageName, property, s) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -283,7 +283,7 @@ StorageHandle.prototype.putString = function (storageName, property, s, success,
     this.storageHandlerDelegate(success, error, pluginFeatureName, "putString", [storageName, property, s]);
 };
 
-StorageHandle.prototype.getString = function (storageName, property, success, error) {
+StorageHandle.prototype.getString = function (success, error, storageName, property) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -297,7 +297,7 @@ StorageHandle.prototype.getString = function (storageName, property, success, er
 };
 
 /* object storage  COMPOSITE AND DOESNT CARE FOR BROWSER*/
-StorageHandle.prototype.putObject = function (storageName, property, obj, success, error) {
+StorageHandle.prototype.putObject = function (success, error, storageName, property, obj) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -326,7 +326,7 @@ StorageHandle.prototype.putObject = function (storageName, property, obj, succes
     );
 };
 
-StorageHandle.prototype.getObject = function (storageName, property, success, error) {
+StorageHandle.prototype.getObject = function (success, error, storageName, property) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -349,7 +349,7 @@ StorageHandle.prototype.getObject = function (storageName, property, success, er
 };
 
 /* API >= 2 */
-StorageHandle.prototype.setItem = function (storageName, property, obj, success, error) {
+StorageHandle.prototype.setItem = function (success, error, storageName, property, obj) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -384,7 +384,7 @@ StorageHandle.prototype.setItem = function (storageName, property, obj, success,
     );
 };
 
-StorageHandle.prototype.getItem = function (storageName, property, success, error) {
+StorageHandle.prototype.getItem = function (success, error, storageName, property) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -415,7 +415,7 @@ StorageHandle.prototype.getItem = function (storageName, property, success, erro
 };
 
 /* API >= 2 */
-StorageHandle.prototype.setSecretItem = function (storageName, property, obj, encryptConfig, success, error) {
+StorageHandle.prototype.setSecretItem = function (success, error, storageName, property, obj, encryptConfig) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -468,7 +468,7 @@ StorageHandle.prototype.setSecretItem = function (storageName, property, obj, en
     );
 };
 
-StorageHandle.prototype.getSecretItem = function (storageName, property, encryptConfig, success, error) {
+StorageHandle.prototype.getSecretItem = function (success, error, storageName, property, encryptConfig) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
@@ -517,7 +517,7 @@ StorageHandle.prototype.getSecretItem = function (storageName, property, encrypt
 };
 
 /* list keys */
-StorageHandle.prototype.keys = function (storageName, success, error) {
+StorageHandle.prototype.keys = function (success, error, storageName) {
     //if error is null then replace with empty function to silence warnings
     if (!error) {
         error = function () {};
