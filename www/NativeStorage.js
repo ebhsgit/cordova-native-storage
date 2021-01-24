@@ -526,5 +526,9 @@ StorageHandle.prototype.keys = function (success, error, storageName) {
     this.storageHandlerDelegate(success, error, pluginFeatureName, "keys", [storageName]);
 };
 
+StorageHandle.prototype.contains = function (success, error, storageName, property) {
+    this.storageHandlerDelegate(success, error, pluginFeatureName, "contains", [storageName, property]);
+}
+
 var storageHandle = new StorageHandle();
 module.exports = storageHandle;

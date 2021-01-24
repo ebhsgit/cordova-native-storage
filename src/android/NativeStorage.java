@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.eightbhs.core.util.cordova.BaseCordovaPlugin;
 
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 
 import java.io.UnsupportedEncodingException;
@@ -168,5 +169,12 @@ public class NativeStorage extends BaseCordovaPlugin {
         SharedPreferences sharedPref = this.getSharedPref(storageName);
         Map<String, ?> allEntries = sharedPref.getAll();
         callbackContext.success(new JSONArray(allEntries.keySet()));
+    }
+
+    @CordovaMethod(ExecutionThread.WORKER)
+    protected void contains(String storageName, String property, final CallbackContext callbackContext) {
+        SharedPreferences sharedPref = this.getSharedPref(storageName);
+        PluginResult result = new PluginResult(PluginResult.Status.OK, sharedPref.contains(property));
+        callbackContext.sendPluginResult(result);
     }
 }

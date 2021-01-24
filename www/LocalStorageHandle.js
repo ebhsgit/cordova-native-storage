@@ -19,6 +19,10 @@ function LocalStorageHandle(success, error, intent, operation, args) {
             getItem(reference, success, error);
             break;
 
+        case "contains":
+            contains(reference, success, error);
+            break;
+
         case "keys":
             keys(storageName, success);
             break;
@@ -79,6 +83,15 @@ function getItem(reference, success, error) {
     }
 }
 
+function contains(reference, success, error) {
+    try {
+        const r = localStorage.getItem(reference) === null;
+        success(r);
+    } catch (e) {
+        error(e);
+    }
+}
+
 function keys(storageName, success) {
     var ks = [];
     for (var i = 0; i < localStorage.length; i++) {
@@ -111,10 +124,10 @@ function clear(storageName, success, error) {
             }
         }
 
-        for(var k in ks) {
+        for (var k in ks) {
             localStorage.removeItem(k);
         }
-        
+
         success();
     } catch (e) {
         error(e);
