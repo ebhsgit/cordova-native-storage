@@ -110,7 +110,7 @@ public class NativeStorage extends BaseCordovaPlugin {
     @CordovaMethod(ExecutionThread.WORKER)
     protected void getString(String storageName, String ref, final CallbackContext callbackContext) {
         SharedPreferences sharedPref = this.getSharedPref(storageName);
-        String s = sharedPref.getString(ref, "null");
+        String s = sharedPref.getString(ref, null);
         callbackContext.success(s);
     }
 
